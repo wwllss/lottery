@@ -39,9 +39,13 @@ class LotteryItem extends StatelessWidget {
             lottery.nextDraw(),
             style: const TextStyle(color: BallColors.black_999),
           ),
-          const SizedBox(height: 6),
-          const LotteryNumber(mainNumList: [1, 2, 3, 4, 5, 6], subNumList: [7],size: 30,),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
+          const LotteryNumber(
+            mainNumList: [1, 2, 3, 4, 5, 6],
+            subNumList: [7],
+            size: 30,
+          ),
+          const SizedBox(height: 8),
           Row(
             children: [
               Expanded(

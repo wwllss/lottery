@@ -25,7 +25,7 @@ class LotteryNumber extends StatelessWidget {
       int? index})
       : assert(color == null || index == null,
             'Cannot provide both a color and a index'),
-        size = size ?? 35,
+        size = size ?? 40,
         ballColor = color ??
             (index == null
                 ? BallColors.b_3
