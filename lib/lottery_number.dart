@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottery/ball_colors.dart';
 
-class LotteryNumber extends StatelessWidget {
+class LotteryNumberView extends StatelessWidget {
 
   final List<int> mainNumList;
 
@@ -11,7 +11,7 @@ class LotteryNumber extends StatelessWidget {
 
   final double size;
 
-  const LotteryNumber(
+  const LotteryNumberView(
       {super.key,
       required this.mainNumList,
       List<int>? subNumList,

@@ -6,18 +6,18 @@ import 'package:lottery/utils.dart';
 import 'enums.dart';
 import 'lottery_number.dart';
 
-class LotteryItem extends StatefulWidget {
+class LotteryItemView extends StatefulWidget {
   final Lottery lottery;
 
-  const LotteryItem(this.lottery, {super.key});
+  const LotteryItemView(this.lottery, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _LotteryItemState();
+    return _LotteryItemViewState();
   }
 }
 
-class _LotteryItemState extends State<LotteryItem> {
+class _LotteryItemViewState extends State<LotteryItemView> {
   LotteryHistory? newestHistory;
 
   @override
@@ -38,7 +38,7 @@ class _LotteryItemState extends State<LotteryItem> {
         ? [const SizedBox()]
         : [
             const SizedBox(height: 8),
-            LotteryNumber(
+            LotteryNumberView(
               mainNumList: newestHistory?.mainNumbers ?? [],
               subNumList: newestHistory?.bonusNumbers ?? [],
               size: 30,

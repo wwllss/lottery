@@ -16,6 +16,35 @@ abstract class Lottery {
   String group();
 
   String nextDraw();
+
+  LotteryConfig config();
+}
+
+class LotteryConfig {
+  final BallConfig main;
+
+  final BallConfig sub;
+
+  LotteryConfig(this.main, this.sub);
+}
+
+class BallConfig {
+  final List<int> balls;
+  final int minNum;
+
+  BallConfig.main(int maxNum, this.minNum)
+      : assert(maxNum > 0 && minNum > 0),
+        balls = getBalls(maxNum);
+
+  BallConfig.sub(int maxNum, this.minNum) : balls = getBalls(maxNum);
+
+  static List<int> getBalls(int max) {
+    List<int> balls = [];
+    for (int i = 0; i < max; i++) {
+      balls.add(i + 1);
+    }
+    return balls;
+  }
 }
 
 ///////中国体育彩票
@@ -41,6 +70,11 @@ class SportLotto extends SportLottery {
   String nextDraw() {
     return Utils.nextDraw([1, 3, 6]);
   }
+
+  @override
+  LotteryConfig config() {
+    return LotteryConfig(BallConfig.main(35, 5), BallConfig.main(12, 2));
+  }
 }
 
 ///////中国福利彩票
@@ -65,5 +99,10 @@ class DoubleColourBall extends WelfareLottery {
   @override
   String nextDraw() {
     return Utils.nextDraw([2, 4, 7]);
+  }
+
+  @override
+  LotteryConfig config() {
+    return LotteryConfig(BallConfig.main(33, 6), BallConfig.main(16, 1));
   }
 }

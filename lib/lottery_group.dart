@@ -4,10 +4,10 @@ import 'package:lottery/ball_colors.dart';
 import 'enums.dart';
 import 'lottery_item.dart';
 
-class LotteryGroup extends StatelessWidget {
+class LotteryGroupView extends StatelessWidget {
   final List<Lottery> lotteryList;
 
-  const LotteryGroup(this.lotteryList,{super.key });
+  const LotteryGroupView(this.lotteryList,{super.key });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class LotteryGroup extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Column(
-          children: lotteryList.map((e) => LotteryItem( e)).toList(),
+          children: lotteryList.map((e) => LotteryItemView( e)).toList(),
         ),
       ),
     );

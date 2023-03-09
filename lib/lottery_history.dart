@@ -54,7 +54,7 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
                     ),
                   ),
                   const Divider(height: 4),
-                  LotteryNumber(
+                  LotteryNumberView(
                     mainNumList: data.mainNumbers,
                     subNumList: data.bonusNumbers,
                     index: index,
