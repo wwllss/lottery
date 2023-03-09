@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lottery/lottery/ball_colors.dart';
-import 'package:lottery/lottery/lottery_history.dart';
-import 'package:lottery/lottery/utils.dart';
+import 'package:lottery/ball_colors.dart';
+import 'package:lottery/lottery_history.dart';
+import 'package:lottery/utils.dart';
 
 import 'enums.dart';
 import 'lottery_number.dart';

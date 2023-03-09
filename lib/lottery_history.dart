@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lottery/lottery/ball_colors.dart';
-import 'package:lottery/lottery/enums.dart';
-import 'package:lottery/lottery/lottery_number.dart';
-import 'package:lottery/lottery/utils.dart';
+import 'package:lottery/ball_colors.dart';
+import 'package:lottery/enums.dart';
+import 'package:lottery/lottery_number.dart';
+import 'package:lottery/utils.dart';
 
 class LotteryHistoryPage extends StatefulWidget {
   final Lottery lottery;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lottery/lottery/routes.dart';
+import 'package:lottery/routes.dart';
 
-import 'lottery/enums.dart';
-import 'lottery/lottery_group.dart';
+import 'enums.dart';
+import 'lottery_group.dart';
 
 void main() {
   runApp(const MyApp());

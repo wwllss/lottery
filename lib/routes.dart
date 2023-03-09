@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lottery/lottery/enums.dart';
-import 'package:lottery/lottery/lottery_history.dart';
+import 'package:lottery/enums.dart';
+import 'package:lottery/lottery_history.dart';
 
 class Routes {
   Routes._();

@@ -1,4 +1,4 @@
-import 'package:lottery/lottery/utils.dart';
+import 'package:lottery/utils.dart';
 
 enum LotteryType { doubleColourBall, superLotto }
 

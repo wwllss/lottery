@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottery/lottery/ball_colors.dart';
+import 'package:lottery/ball_colors.dart';
 
 import 'enums.dart';
 import 'lottery_item.dart';

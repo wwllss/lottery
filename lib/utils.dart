@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:lottery/lottery/enums.dart';
+import 'package:lottery/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'lottery_history.dart';
