@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottery/lottery/ball_colors.dart';
 
 class LotteryNumber extends StatelessWidget {
-  static final colorIndex = [
-    BallColors.b_1,
-    BallColors.b_2,
-    BallColors.b_3,
-    BallColors.b_4
-  ];
+
   final List<int> mainNumList;
 
   final List<int> subNumList;
