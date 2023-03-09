@@ -1,16 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:lottery/lottery/ball_colors.dart';
+import 'package:lottery/lottery/lottery_history.dart';
+import 'package:lottery/lottery/utils.dart';
 
 import 'enums.dart';
 import 'lottery_number.dart';
 
-class LotteryItem extends StatelessWidget {
+class LotteryItem extends StatefulWidget {
   final Lottery lottery;
 
   const LotteryItem(this.lottery, {super.key});
 
   @override
+  State<StatefulWidget> createState() {
+    return _LotteryItemState();
+  }
+}
+
+class _LotteryItemState extends State<LotteryItem> {
+  LotteryHistory? newestHistory;
+
+  @override
+  void initState() {
+    Utils.historyList(widget.lottery.type, (list) {
+      if (list.isNotEmpty) {
+        setState(() {
+          newestHistory = list[0];
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<Widget> historyWidget = newestHistory == null
+        ? [const SizedBox()]
+        : [
+            const SizedBox(height: 8),
+            LotteryNumber(
+              mainNumList: newestHistory?.mainNumbers ?? [],
+              subNumList: newestHistory?.bonusNumbers ?? [],
+              size: 30,
+              color: widget.lottery.type == LotteryType.superLotto
+                  ? BallColors.b_4
+                  : BallColors.b_3,
+            )
+          ];
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -22,7 +58,7 @@ class LotteryItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            lottery.name(),
+            widget.lottery.name(),
             style: const TextStyle(
               color: BallColors.black_333,
               fontSize: 16,
@@ -31,20 +67,15 @@ class LotteryItem extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            lottery.group(),
+            widget.lottery.group(),
             style: const TextStyle(color: BallColors.black_999),
           ),
           const SizedBox(height: 4),
           Text(
-            lottery.nextDraw(),
+            widget.lottery.nextDraw(),
             style: const TextStyle(color: BallColors.black_999),
           ),
-          const SizedBox(height: 8),
-          const LotteryNumber(
-            mainNumList: [1, 2, 3, 4, 5, 6],
-            subNumList: [7],
-            size: 30,
-          ),
+          ...historyWidget,
           const SizedBox(height: 8),
           Row(
             children: [
@@ -73,7 +104,8 @@ class LotteryItem extends StatelessWidget {
               Expanded(
                   child: InkWell(
                 onTap: () {
-                  //TODO 去开奖历史
+                  Navigator.pushNamed(context, "/history",
+                      arguments: widget.lottery);
                 },
                 child: Container(
                   height: 40,

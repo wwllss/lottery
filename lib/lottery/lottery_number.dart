@@ -53,6 +53,7 @@ class LotteryNumber extends StatelessWidget {
       list.add(Icon(
         Icons.add,
         color: ballColor,
+        size: 18,
       ));
       list.add(const SizedBox(width: 6));
       list.addAll(_addBalls(subNumList));
@@ -71,7 +72,7 @@ class LotteryNumber extends StatelessWidget {
         height: size,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: ballColor, borderRadius: BorderRadius.circular(20)),
+            color: ballColor, borderRadius: BorderRadius.circular(size)),
         child: Text(
           element.toString().padLeft(2, '0'),
           style: const TextStyle(color: Colors.white),

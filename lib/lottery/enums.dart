@@ -1,6 +1,6 @@
 import 'package:lottery/lottery/utils.dart';
 
-enum LotteryType { doubleColourBall, sportsLotto }
+enum LotteryType { doubleColourBall, superLotto }
 
 abstract class Lottery {
   static final List<Lottery> sportList = [const SportLotto()];
@@ -30,7 +30,7 @@ abstract class SportLottery extends Lottery {
 }
 
 class SportLotto extends SportLottery {
-  const SportLotto() : super(LotteryType.sportsLotto);
+  const SportLotto() : super(LotteryType.superLotto);
 
   @override
   String name() {

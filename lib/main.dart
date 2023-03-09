@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottery/lottery/routes.dart';
 
 import 'lottery/enums.dart';
 import 'lottery/lottery_group.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       home: const LotteryHome(),
+      onGenerateRoute: Routes.make,
     );
   }
 }
