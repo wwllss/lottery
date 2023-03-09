@@ -5,7 +5,9 @@ import 'package:lottery/lottery/lottery_number.dart';
 import 'package:lottery/lottery/utils.dart';
 
 class LotteryHistoryPage extends StatefulWidget {
-  const LotteryHistoryPage({super.key});
+  final Lottery lottery;
+
+  const LotteryHistoryPage(this.lottery, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -14,19 +16,15 @@ class LotteryHistoryPage extends StatefulWidget {
 }
 
 class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
-  late Lottery lottery;
 
   List<LotteryHistory> list = [];
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      lottery = ModalRoute.of(context)?.settings.arguments as Lottery;
-      Utils.historyList(lottery.type, (list) {
-        setState(() {
-          this.list = list;
-        });
+    Utils.historyList(widget.lottery.type, (list) {
+      setState(() {
+        this.list = list;
       });
     });
   }
@@ -35,7 +33,7 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${lottery.name()}历史开奖"),
+        title: Text("${widget.lottery.name()}历史开奖"),
         centerTitle: true,
       ),
       body: Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottery/lottery/enums.dart';
 import 'package:lottery/lottery/lottery_history.dart';
 
 class Routes {
@@ -8,7 +9,9 @@ class Routes {
     var name = settings.name ?? "";
     if ("/history" == name) {
       return MaterialPageRoute(
-          builder: (context) => const LotteryHistoryPage(), settings: settings);
+          builder: (context) =>
+              LotteryHistoryPage(settings.arguments as Lottery),
+          settings: settings);
     }
     return null;
   }
