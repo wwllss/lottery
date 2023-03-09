@@ -82,7 +82,8 @@ class _LotteryItemViewState extends State<LotteryItemView> {
               Expanded(
                   child: InkWell(
                 onTap: () {
-                  //TODO 去选号
+                  Navigator.pushNamed(context, "/random",
+                      arguments: widget.lottery);
                 },
                 child: Container(
                   height: 40,
