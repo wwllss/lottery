@@ -7,7 +7,7 @@ import 'lottery_item.dart';
 class LotteryGroup extends StatelessWidget {
   final List<Lottery> lotteryList;
 
-  const LotteryGroup({super.key, required this.lotteryList});
+  const LotteryGroup(this.lotteryList,{super.key });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class LotteryGroup extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Column(
-          children: lotteryList.map((e) => LotteryItem(lottery: e)).toList(),
+          children: lotteryList.map((e) => LotteryItem( e)).toList(),
         ),
       ),
     );

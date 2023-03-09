@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:lottery/lottery/ball_colors.dart';
 
 import 'enums.dart';
+import 'lottery_number.dart';
 
 class LotteryItem extends StatelessWidget {
   final Lottery lottery;
 
-  const LotteryItem({super.key, required this.lottery});
+  const LotteryItem(this.lottery, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,8 @@ class LotteryItem extends StatelessWidget {
             lottery.nextDraw(),
             style: const TextStyle(color: BallColors.black_999),
           ),
+          const SizedBox(height: 6),
+          const LotteryNumber(mainNumList: [1, 2, 3, 4, 5, 6], subNumList: [7],size: 30,),
           const SizedBox(height: 6),
           Row(
             children: [

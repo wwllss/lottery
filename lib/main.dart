@@ -51,8 +51,8 @@ class _LotteryHomeState extends State<LotteryHome> {
             ),
           ),
           body: TabBarView(children: [
-            LotteryGroup(lotteryList: Lottery.welfareList),
-            LotteryGroup(lotteryList: Lottery.sportList),
+            LotteryGroup(Lottery.welfareList),
+            LotteryGroup(Lottery.sportList),
           ]), // This trailing comma makes auto-formatting nicer for build methods.
         ));
   }
