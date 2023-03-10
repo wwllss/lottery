@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:lottery/ball_colors.dart';
 import 'package:lottery/utils.dart';
 
 enum LotteryType { doubleColourBall, superLotto }
@@ -31,12 +34,14 @@ class LotteryConfig {
 class BallConfig {
   final List<int> balls;
   final int minNum;
+  final Color color;
 
-  BallConfig.main(int maxNum, this.minNum)
+  BallConfig.main(int maxNum, this.minNum, this.color)
       : assert(maxNum > 0 && minNum > 0),
         balls = getBalls(maxNum);
 
-  BallConfig.sub(int maxNum, this.minNum) : balls = getBalls(maxNum);
+  BallConfig.sub(int maxNum, this.minNum, this.color)
+      : balls = getBalls(maxNum);
 
   static List<int> getBalls(int max) {
     List<int> balls = [];
@@ -73,7 +78,8 @@ class SportLotto extends SportLottery {
 
   @override
   LotteryConfig config() {
-    return LotteryConfig(BallConfig.main(35, 5), BallConfig.main(12, 2));
+    return LotteryConfig(BallConfig.main(35, 5, BallColors.bb),
+        BallConfig.main(12, 2, BallColors.by));
   }
 }
 
@@ -103,6 +109,7 @@ class DoubleColourBall extends WelfareLottery {
 
   @override
   LotteryConfig config() {
-    return LotteryConfig(BallConfig.main(33, 6), BallConfig.main(16, 1));
+    return LotteryConfig(BallConfig.main(33, 6, BallColors.br),
+        BallConfig.main(16, 1, BallColors.bb));
   }
 }

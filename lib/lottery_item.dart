@@ -39,12 +39,10 @@ class _LotteryItemViewState extends State<LotteryItemView> {
         : [
             const SizedBox(height: 8),
             LotteryNumberView(
+              lottery: widget.lottery,
               mainNumList: newestHistory?.mainNumbers ?? [],
               subNumList: newestHistory?.bonusNumbers ?? [],
-              size: 30,
-              color: widget.lottery.type == LotteryType.superLotto
-                  ? BallColors.b_4
-                  : BallColors.b_3,
+              size: 28,
             )
           ];
     return Container(
@@ -86,14 +84,14 @@ class _LotteryItemViewState extends State<LotteryItemView> {
                       arguments: widget.lottery);
                 },
                 child: Container(
-                  height: 40,
+                  height: 35,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: BallColors.bg_btn,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
-                    "选号",
+                    "随机选号",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -109,7 +107,7 @@ class _LotteryItemViewState extends State<LotteryItemView> {
                       arguments: widget.lottery);
                 },
                 child: Container(
-                  height: 40,
+                  height: 35,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: BallColors.bg_btn,

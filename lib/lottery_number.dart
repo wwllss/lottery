@@ -1,36 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:lottery/ball_colors.dart';
+import 'package:lottery/enums.dart';
 
 class LotteryNumberView extends StatelessWidget {
+  final Lottery lottery;
 
   final List<int> mainNumList;
 
   final List<int> subNumList;
 
-  final Color ballColor;
-
   final double size;
 
   const LotteryNumberView(
       {super.key,
+      required this.lottery,
       required this.mainNumList,
       List<int>? subNumList,
-      double? size,
-      Color? color,
-      int? index})
-      : assert(color == null || index == null,
-            'Cannot provide both a color and a index'),
-        size = size ?? 40,
-        ballColor = color ??
-            (index == null
-                ? BallColors.b_3
-                : index % 4 == 0
-                    ? BallColors.b_1
-                    : index % 4 == 1
-                        ? BallColors.b_2
-                        : index % 4 == 3
-                            ? BallColors.b_4
-                            : BallColors.b_3),
+      double? size})
+      : size = size ?? 40,
         subNumList = subNumList ?? const [];
 
   @override
@@ -40,28 +26,29 @@ class LotteryNumberView extends StatelessWidget {
         height: size,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: ballColor, borderRadius: BorderRadius.circular(20)),
+            color: lottery.config().main.color,
+            borderRadius: BorderRadius.circular(20)),
         child: const Text(
           "号码错误",
           style: TextStyle(color: Colors.white),
         ),
       );
     }
-    List<Widget> list = _addBalls(mainNumList);
+    List<Widget> list = _addBalls(mainNumList, lottery.config().main.color);
     if (subNumList.isNotEmpty) {
       list.add(const SizedBox(width: 6));
       list.add(Icon(
         Icons.add,
-        color: ballColor,
+        color: lottery.config().main.color,
         size: 18,
       ));
       list.add(const SizedBox(width: 6));
-      list.addAll(_addBalls(subNumList));
+      list.addAll(_addBalls(subNumList, lottery.config().sub.color));
     }
     return Row(children: list);
   }
 
-  List<Widget> _addBalls(List<int> ballList) {
+  List<Widget> _addBalls(List<int> ballList, Color color) {
     List<Widget> list = [];
     for (var element in ballList) {
       if (list.isNotEmpty) {
@@ -72,10 +59,11 @@ class LotteryNumberView extends StatelessWidget {
         height: size,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: ballColor, borderRadius: BorderRadius.circular(size)),
+            color: color, borderRadius: BorderRadius.circular(size)),
         child: Text(
           element.toString().padLeft(2, '0'),
-          style: const TextStyle(color: Colors.white),
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ));
     }

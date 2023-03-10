@@ -16,7 +16,6 @@ class LotteryHistoryPage extends StatefulWidget {
 }
 
 class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
-
   List<LotteryHistory> list = [];
 
   @override
@@ -53,18 +52,18 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const Divider(height: 4),
+                  const SizedBox(height: 4),
                   LotteryNumberView(
+                    lottery: widget.lottery,
                     mainNumList: data.mainNumbers,
                     subNumList: data.bonusNumbers,
-                    index: index,
-                    size: 40,
+                    size: 35,
                   )
                 ],
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return const Divider(height: 12);
+              return const SizedBox(height: 12);
             },
             itemCount: list.length),
       ),

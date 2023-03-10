@@ -17,13 +17,13 @@ class BallColors {
 
   static const gray_f8 = Color(0xFFF8F8F8);
 
-  static const b_1 = Color(0xFFE8B072);
+  static const by = Color(0xFFE8B072);
 
-  static const b_2 = Color(0xFF64A6AA);
+  static const bg = Color(0xFF64A6AA);
 
-  static const b_3 = Color(0xFFCE5E6A);
+  static const br = Color(0xFFCE5E6A);
 
-  static const b_4 = Color(0xFF82C2EE);
+  static const bb = Color(0xFF82C2EE);
 
   static const bg_btn = Color(0xFFACB6D6);
 }

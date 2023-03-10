@@ -6,11 +6,11 @@ import 'enums.dart';
 import 'lottery_group.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const LotteryApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LotteryApp extends StatelessWidget {
+  const LotteryApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -39,23 +39,24 @@ class _LotteryHomeState extends State<LotteryHome> {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('一注幸运'),
-            centerTitle: true,
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: "福 彩"),
-                Tab(text: "体 彩"),
-              ],
-              labelStyle: TextStyle(fontSize: 16),
-            ),
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('一注幸运'),
+          centerTitle: true,
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: "福 彩"),
+              Tab(text: "体 彩"),
+            ],
+            labelStyle: TextStyle(fontSize: 16),
           ),
-          body: TabBarView(children: [
-            LotteryGroupView(Lottery.welfareList),
-            LotteryGroupView(Lottery.sportList),
-          ]), // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+        ),
+        body: TabBarView(children: [
+          LotteryGroupView(Lottery.welfareList),
+          LotteryGroupView(Lottery.sportList),
+        ]), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+    );
   }
 }
