@@ -91,7 +91,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 6);
+                    return const SizedBox(height: 8);
                   },
                   itemCount: selectedList.length),
             ),
