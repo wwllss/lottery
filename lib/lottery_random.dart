@@ -20,6 +20,7 @@ class LotteryRandomPage extends StatefulWidget {
 class _LotteryRandomPageState extends State<LotteryRandomPage> {
   LotteryHistory? newestHistory;
   List<LotteryHistory> selectedList = [];
+  bool _includeNewest = false;
 
   @override
   void initState() {
@@ -46,39 +47,64 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const Text(
-                  "上期开奖号码：",
-                  style: TextStyle(color: Colors.white),
-                ),
-                newestHistory == null
-                    ? const SizedBox()
-                    : LotteryNumberView(
-                        lottery: widget.lottery,
-                        mainNumList: newestHistory?.mainNumbers ?? [],
-                        subNumList: newestHistory?.bonusNumbers ?? [],
-                        size: 25,
-                      ),
-              ],
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _includeNewest = !_includeNewest;
+                });
+              },
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: _includeNewest,
+                    onChanged: (value) {
+                      setState(() {
+                        _includeNewest = !_includeNewest;
+                      });
+                    },
+                  ),
+                  const Text(
+                    "上期开奖号码：",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  newestHistory == null
+                      ? const SizedBox()
+                      : LotteryNumberView(
+                          lottery: widget.lottery,
+                          mainNumList: newestHistory?.mainNumbers ?? [],
+                          subNumList: newestHistory?.bonusNumbers ?? [],
+                          size: 25,
+                        ),
+                ],
+              ),
             ),
             const SizedBox(height: 12),
             Expanded(
               child: ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
-                    return const Text("test");
+                    var history = selectedList[index];
+                    return LotteryNumberView(
+                      lottery: widget.lottery,
+                      mainNumList: history.mainNumbers,
+                      subNumList: history.bonusNumbers,
+                      size: 35,
+                    );
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return const SizedBox(height: 6);
                   },
-                  itemCount: 100),
+                  itemCount: selectedList.length),
             ),
+            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      //TODO 互斥随机
+                      setState(() {
+                        selectedList = Utils.random(widget.lottery.config(),
+                            globalNoRepeat: true);
+                      });
                     },
                     child: Container(
                       height: 40,
@@ -99,7 +125,11 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      //TODO 互斥随机
+                      setState(() {
+                        selectedList = Utils.random(widget.lottery.config(),
+                            count: 1,
+                            history: _includeNewest ? null : newestHistory);
+                      });
                     },
                     child: Container(
                       height: 40,
@@ -120,7 +150,11 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      //TODO 互斥随机
+                      setState(() {
+                        selectedList = Utils.random(widget.lottery.config(),
+                            count: 5,
+                            history: _includeNewest ? null : newestHistory);
+                      });
                     },
                     child: Container(
                       height: 40,

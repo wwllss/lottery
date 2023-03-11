@@ -35,12 +35,14 @@ class BallConfig {
   final List<int> balls;
   final int minNum;
   final Color color;
+  final bool repeat;
+  final bool sort;
 
-  BallConfig.main(int maxNum, this.minNum, this.color)
+  BallConfig.main(int maxNum, this.minNum, this.color, this.repeat, this.sort)
       : assert(maxNum > 0 && minNum > 0),
         balls = getBalls(maxNum);
 
-  BallConfig.sub(int maxNum, this.minNum, this.color)
+  BallConfig.sub(int maxNum, this.minNum, this.color, this.repeat, this.sort)
       : balls = getBalls(maxNum);
 
   static List<int> getBalls(int max) {
@@ -48,7 +50,7 @@ class BallConfig {
     for (int i = 0; i < max; i++) {
       balls.add(i + 1);
     }
-    return balls;
+    return List.unmodifiable(balls);
   }
 }
 
@@ -78,8 +80,8 @@ class SportLotto extends SportLottery {
 
   @override
   LotteryConfig config() {
-    return LotteryConfig(BallConfig.main(35, 5, BallColors.bb),
-        BallConfig.main(12, 2, BallColors.by));
+    return LotteryConfig(BallConfig.main(35, 5, BallColors.bb, false, false),
+        BallConfig.main(12, 2, BallColors.by, false, false));
   }
 }
 
@@ -109,7 +111,7 @@ class DoubleColourBall extends WelfareLottery {
 
   @override
   LotteryConfig config() {
-    return LotteryConfig(BallConfig.main(33, 6, BallColors.br),
-        BallConfig.main(16, 1, BallColors.bb));
+    return LotteryConfig(BallConfig.main(33, 6, BallColors.br, false, false),
+        BallConfig.main(16, 1, BallColors.bb, false, false));
   }
 }
