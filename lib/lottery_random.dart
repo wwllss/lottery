@@ -138,6 +138,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                             Utils.random(
                               widget.lottery.config(),
                               globalNoRepeat: true,
+                              history: _includeNewest ? null : newestHistory,
                             ),
                             "互斥随机");
                       });
@@ -225,10 +226,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
 
   void _newSelectedList(List<LotteryHistory> list, String desc) {
     selectedList.insertAll(0, list);
-    var s = "第${_count++}次，$desc";
-    if (desc != "互斥随机") {
-      s = "$s，${_includeNewest ? "" : "不"}包含上期开奖号码";
-    }
-    selectedList.insert(0, s);
+    selectedList.insert(
+        0, "第${_count++}次，$desc，${_includeNewest ? "" : "不"}包含上期开奖号码");
   }
 }
