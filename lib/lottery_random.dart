@@ -19,8 +19,9 @@ class LotteryRandomPage extends StatefulWidget {
 
 class _LotteryRandomPageState extends State<LotteryRandomPage> {
   LotteryHistory? newestHistory;
-  List<LotteryHistory> selectedList = [];
+  List<dynamic> selectedList = [];
   bool _includeNewest = false;
+  int _count = 1;
 
   @override
   void initState() {
@@ -68,14 +69,36 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
               child: ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
                     var history = selectedList[index];
-                    return LotteryNumberView(
-                      lottery: widget.lottery,
-                      mainNumList: history.mainNumbers,
-                      subNumList: history.bonusNumbers,
-                      size: 35,
-                    );
+                    if (history is LotteryHistory) {
+                      return LotteryNumberView(
+                        lottery: widget.lottery,
+                        mainNumList: history.mainNumbers,
+                        subNumList: history.bonusNumbers,
+                        size: 35,
+                      );
+                    }
+                    if (history is String) {
+                      return Row(
+                        children: [
+                          Text(
+                            history,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                    return const Text("未知数据类型");
                   },
                   separatorBuilder: (BuildContext context, int index) {
+                    var ni = index + 1;
+                    if (ni >= 0 &&
+                        ni < selectedList.length &&
+                        selectedList[ni] is String) {
+                      return const SizedBox(height: 24);
+                    }
                     return const SizedBox(height: 8);
                   },
                   itemCount: selectedList.length),
@@ -111,10 +134,12 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        selectedList = Utils.random(
-                          widget.lottery.config(),
-                          globalNoRepeat: true,
-                        );
+                        _newSelectedList(
+                            Utils.random(
+                              widget.lottery.config(),
+                              globalNoRepeat: true,
+                            ),
+                            "互斥随机");
                       });
                     },
                     child: Container(
@@ -137,11 +162,13 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        selectedList = Utils.random(
-                          widget.lottery.config(),
-                          count: 1,
-                          history: _includeNewest ? null : newestHistory,
-                        );
+                        _newSelectedList(
+                            Utils.random(
+                              widget.lottery.config(),
+                              count: 1,
+                              history: _includeNewest ? null : newestHistory,
+                            ),
+                            "随机1注");
                       });
                     },
                     child: Container(
@@ -164,11 +191,13 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        selectedList = Utils.random(
-                          widget.lottery.config(),
-                          count: 5,
-                          history: _includeNewest ? null : newestHistory,
-                        );
+                        _newSelectedList(
+                            Utils.random(
+                              widget.lottery.config(),
+                              count: 5,
+                              history: _includeNewest ? null : newestHistory,
+                            ),
+                            "随机5注");
                       });
                     },
                     child: Container(
@@ -192,5 +221,11 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
         ),
       ),
     );
+  }
+
+  void _newSelectedList(List<LotteryHistory> list, String desc) {
+    selectedList.insertAll(0, list);
+    selectedList.insert(
+        0, "第${_count++}次，$desc，${_includeNewest ? "" : "不"}包含上期开奖号码");
   }
 }
