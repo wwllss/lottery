@@ -47,36 +47,21 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              onTap: () {
-                setState(() {
-                  _includeNewest = !_includeNewest;
-                });
-              },
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _includeNewest,
-                    onChanged: (value) {
-                      setState(() {
-                        _includeNewest = !_includeNewest;
-                      });
-                    },
-                  ),
-                  const Text(
-                    "上期开奖号码：",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  newestHistory == null
-                      ? const SizedBox()
-                      : LotteryNumberView(
-                          lottery: widget.lottery,
-                          mainNumList: newestHistory?.mainNumbers ?? [],
-                          subNumList: newestHistory?.bonusNumbers ?? [],
-                          size: 25,
-                        ),
-                ],
-              ),
+            Row(
+              children: [
+                const Text(
+                  "上期开奖号码：",
+                  style: TextStyle(color: Colors.white),
+                ),
+                newestHistory == null
+                    ? const SizedBox()
+                    : LotteryNumberView(
+                        lottery: widget.lottery,
+                        mainNumList: newestHistory?.mainNumbers ?? [],
+                        subNumList: newestHistory?.bonusNumbers ?? [],
+                        size: 25,
+                      ),
+              ],
             ),
             const SizedBox(height: 12),
             Expanded(
@@ -96,14 +81,40 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   itemCount: selectedList.length),
             ),
             const SizedBox(height: 6),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _includeNewest = !_includeNewest;
+                });
+              },
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: _includeNewest,
+                    onChanged: (value) {
+                      setState(() {
+                        _includeNewest = !_includeNewest;
+                      });
+                    },
+                  ),
+                  const Text(
+                    "包含上期开奖号码",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 6),
             Row(
               children: [
                 Expanded(
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        selectedList = Utils.random(widget.lottery.config(),
-                            globalNoRepeat: true);
+                        selectedList = Utils.random(
+                          widget.lottery.config(),
+                          globalNoRepeat: true,
+                        );
                       });
                     },
                     child: Container(
@@ -126,9 +137,11 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        selectedList = Utils.random(widget.lottery.config(),
-                            count: 1,
-                            history: _includeNewest ? null : newestHistory);
+                        selectedList = Utils.random(
+                          widget.lottery.config(),
+                          count: 1,
+                          history: _includeNewest ? null : newestHistory,
+                        );
                       });
                     },
                     child: Container(
@@ -151,9 +164,11 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   child: InkWell(
                     onTap: () {
                       setState(() {
-                        selectedList = Utils.random(widget.lottery.config(),
-                            count: 5,
-                            history: _includeNewest ? null : newestHistory);
+                        selectedList = Utils.random(
+                          widget.lottery.config(),
+                          count: 5,
+                          history: _includeNewest ? null : newestHistory,
+                        );
                       });
                     },
                     child: Container(
