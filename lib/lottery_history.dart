@@ -46,8 +46,9 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    Utils.formatTime(dateTime),
-                    style: const TextStyle(
+                    "${index == 0 ? "最新一期   " : ""}${Utils.formatTime(dateTime)}",
+                    style: TextStyle(
+                      fontSize: index == 0 ? 20 : 14,
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                     ),
