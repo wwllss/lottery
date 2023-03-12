@@ -37,7 +37,8 @@ class Utils {
       if (weekday > pre && weekday < last) {
         interval = last - weekday;
         index = last;
-      } else {
+      }
+      if (i == drawList.length - 2 && weekday > last) {
         interval = drawList[0];
         index = drawList[0];
       }
