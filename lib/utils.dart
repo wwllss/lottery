@@ -32,16 +32,26 @@ class Utils {
         desc = "今天 ${_weekList[weekday]}";
         break;
       }
+      var interval = 0;
+      var index = -1;
       if (weekday > pre && weekday < last) {
-        var interval = last - weekday;
-        if (interval == 1) {
-          desc = "明天 ${_weekList[last]}";
-        } else if (interval == 2) {
-          desc = "后天 ${_weekList[last]}";
-        } else {
-          desc = "$interval天后 ${_weekList[last]}";
-        }
+        interval = last - weekday;
+        index = last;
+      } else {
+        interval = drawList[0];
+        index = drawList[0];
       }
+      if (interval == 0 || index == -1) {
+        continue;
+      }
+      if (interval == 1) {
+        desc = "明天 ${_weekList[index]}";
+      } else if (interval == 2) {
+        desc = "后天 ${_weekList[index]}";
+      } else {
+        desc = "$interval天后 ${_weekList[index]}";
+      }
+      break;
     }
     return "下次开奖是 $desc";
   }
