@@ -77,10 +77,7 @@ class Utils {
   }
 
   static String weekdayDesc(DateTime dateTime) {
-    return weekdayDescWithInt(dateTime.weekday);
-  }
-
-  static String weekdayDescWithInt(int weekday) {
+    var weekday = dateTime.weekday;
     if (weekday < 1 || weekday >= _weekList.length) {
       return "未知";
     }
