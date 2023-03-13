@@ -140,7 +140,7 @@ class Utils {
     return list;
   }
 
-  static final Random _random = Random();
+  static final Random _random = Random.secure();
 
   static int _randomBall(List<int> list) {
     return list[_random.nextInt(list.length)];
