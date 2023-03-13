@@ -265,8 +265,13 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
 
   void _newSelectedList(List<LotteryHistory> list, String desc) {
     selectedList.insertAll(0, list);
-    selectedList.insert(
-        0, "第${_count++}次，$desc，${_includeNewest ? "" : "不"}包含上期开奖号码");
+    var history = list[0];
+    var config = widget.lottery.config();
+    var total = Utils.combine(history.mainNumbers.length, config.main.minNum)
+            .length *
+        Utils.combine(history.bonusNumbers.length, config.sub.minNum).length;
+    selectedList.insert(0,
+        "第${_count++}次，$desc，${_includeNewest ? "" : "不"}包含上期开奖号码，每注${total * 2}元");
   }
 
   void _onTapDuplex(bool value) {

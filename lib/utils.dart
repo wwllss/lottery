@@ -145,4 +145,23 @@ class Utils {
   static int _randomBall(List<int> list) {
     return list[_random.nextInt(list.length)];
   }
+
+  static List<List<int>> combine(int n, int k) {
+    List<List<int>> ans = [];
+    getCombine(ans, n, k, 1, []);
+    return ans;
+  }
+
+  static void getCombine(
+      List<List<int>> ans, int n, int k, int start, List<int> list) {
+    if (k == 0) {
+      ans.add(List<int>.from(list));
+      return;
+    }
+    for (int i = start; i <= n - k + 1; i++) {
+      list.add(i);
+      getCombine(ans, n, k - 1, i + 1, list);
+      list.remove(list.length - 1);
+    }
+  }
 }
