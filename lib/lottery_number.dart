@@ -45,7 +45,11 @@ class LotteryNumberView extends StatelessWidget {
       list.add(const SizedBox(width: 6));
       list.addAll(_addBalls(subNumList, lottery.config().sub.color));
     }
-    return Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: list);
+    return Wrap(
+      runSpacing: 4,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: list,
+    );
   }
 
   List<Widget> _addBalls(List<int> ballList, Color color) {
