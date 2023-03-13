@@ -36,16 +36,20 @@ class LotteryNumberView extends StatelessWidget {
     }
     List<Widget> list = _addBalls(mainNumList, lottery.config().main.color);
     if (subNumList.isNotEmpty) {
-      list.add(const SizedBox(width: 6));
-      list.add(Icon(
-        Icons.add,
-        color: lottery.config().main.color,
-        size: 18,
+      list.add(Container(
+        width: size,
+        height: size,
+        alignment: Alignment.center,
+        child: Icon(
+          Icons.add,
+          color: lottery.config().main.color,
+          size: 18,
+        ),
       ));
-      list.add(const SizedBox(width: 6));
       list.addAll(_addBalls(subNumList, lottery.config().sub.color));
     }
     return Wrap(
+      spacing: 4,
       runSpacing: 4,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: list,
@@ -55,9 +59,6 @@ class LotteryNumberView extends StatelessWidget {
   List<Widget> _addBalls(List<int> ballList, Color color) {
     List<Widget> list = [];
     for (var element in ballList) {
-      if (list.isNotEmpty) {
-        list.add(const SizedBox(width: 4));
-      }
       list.add(Container(
         width: size,
         height: size,
