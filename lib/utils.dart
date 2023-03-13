@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:lottery/enums.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'lottery_history.dart';
 
@@ -61,11 +60,6 @@ class Utils {
     return "下次开奖是 $desc";
   }
 
-  static Future<String> newestHistory() async {
-    var instance = await SharedPreferences.getInstance();
-    return "";
-  }
-
   static Future<String> historyStr(LotteryType type) async {
     return await rootBundle.loadString("assets/history/${type.name}.json");
   }
@@ -95,15 +89,19 @@ class Utils {
   }
 
   static List<LotteryHistory> random(LotteryConfig config,
-      {int count = 1, bool globalNoRepeat = false, LotteryHistory? history}) {
+      {int count = 1,
+      bool globalNoRepeat = false,
+      LotteryHistory? history,
+      int? duplexMain,
+      int? duplexSub}) {
     var mainConfig = config.main;
     var mainBallsSource = List<int>.from(mainConfig.balls);
     mainBallsSource.removeWhere(
         (element) => history?.mainNumbers.contains(element) ?? false);
-    var mainNum = mainConfig.minNum;
+    var mainNum = duplexMain ?? mainConfig.minNum;
     var subConfig = config.sub;
     var subBallSource = List<int>.from(subConfig.balls);
-    var subNum = subConfig.minNum;
+    var subNum = duplexSub ?? subConfig.minNum;
     count = globalNoRepeat ? mainBallsSource.length ~/ mainNum : count;
     List<LotteryHistory> list = [];
     for (int i = 0; i < count; i++) {
