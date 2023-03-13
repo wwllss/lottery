@@ -107,33 +107,34 @@ class Utils {
     count = globalNoRepeat ? mainBallsSource.length ~/ mainNum : count;
     List<LotteryHistory> list = [];
     for (int i = 0; i < count; i++) {
-      List<int> mbs = [];
-      for (int m = 0; m < mainNum; m++) {
-        var rb = _randomBall(mainBallsSource);
-        mbs.add(rb);
-        if (mainConfig.repeat) {
-          continue;
-        }
-        mainBallsSource.remove(rb);
-      }
-      mbs.sort();
+      List<int> mbs = randomBalls(
+          mainBallsSource, mainNum, mainConfig.repeat, mainConfig.sort);
       if (!globalNoRepeat) {
         mainBallsSource = List<int>.from(mainConfig.balls);
         mainBallsSource.removeWhere(
             (element) => history?.mainNumbers.contains(element) ?? false);
       }
-      List<int> sbs = [];
-      for (int s = 0; s < subNum; s++) {
-        var rb = _randomBall(subBallSource);
-        sbs.add(rb);
-        if (subConfig.repeat) {
-          continue;
-        }
-        subBallSource.remove(rb);
-      }
-      sbs.sort();
+      List<int> sbs =
+          randomBalls(subBallSource, subNum, subConfig.repeat, subConfig.sort);
       subBallSource = List<int>.from(subConfig.balls);
       list.add(LotteryHistory(mbs, sbs, ""));
+    }
+    return list;
+  }
+
+  static List<int> randomBalls(
+      List<int> source, int count, bool repeat, bool sort) {
+    List<int> list = [];
+    for (int i = 0; i < count; i++) {
+      var rb = _randomBall(source);
+      list.add(rb);
+      if (repeat) {
+        continue;
+      }
+      source.remove(rb);
+    }
+    if (!sort) {
+      list.sort();
     }
     return list;
   }
