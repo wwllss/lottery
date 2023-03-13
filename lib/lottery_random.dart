@@ -112,7 +112,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
               },
               child: Row(
                 children: [
-                  Checkbox(
+                  Switch(
                     value: _includeNewest,
                     onChanged: (value) {
                       setState(() {
