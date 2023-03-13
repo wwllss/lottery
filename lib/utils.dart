@@ -125,6 +125,9 @@ class Utils {
   static List<int> randomBalls(
       List<int> source, int count, bool repeat, bool sort) {
     List<int> list = [];
+    if (source.length == count) {
+      return List<int>.from(source);
+    }
     for (int i = 0; i < count; i++) {
       var rb = _randomBall(source);
       list.add(rb);
