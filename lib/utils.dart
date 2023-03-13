@@ -34,6 +34,10 @@ class Utils {
       }
       var interval = 0;
       var index = -1;
+      if (weekday < pre) {
+        interval = pre - weekday;
+        index = pre;
+      }
       if (weekday > pre && weekday < last) {
         interval = last - weekday;
         index = last;
