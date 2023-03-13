@@ -58,7 +58,7 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
                     lottery: widget.lottery,
                     mainNumList: data.mainNumbers,
                     subNumList: data.bonusNumbers,
-                    size: 35,
+                    size: index == 0 ? 40 : 35,
                   )
                 ],
               );
