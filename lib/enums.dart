@@ -3,12 +3,15 @@ import 'dart:ui';
 import 'package:lottery/ball_colors.dart';
 import 'package:lottery/utils.dart';
 
-enum LotteryType { doubleColourBall, superLotto }
+enum LotteryType { doubleColourBall, superLotto, happy8 }
 
 abstract class Lottery {
   static final List<Lottery> sportList = [const SportLotto()];
 
-  static final List<Lottery> welfareList = [const DoubleColourBall()];
+  static final List<Lottery> welfareList = [
+    const DoubleColourBall(),
+    const Happy8()
+  ];
 
   final LotteryType type;
 
@@ -39,8 +42,7 @@ class BallConfig {
   final bool sort;
 
   BallConfig.main(int maxNum, this.minNum, this.color, this.repeat, this.sort)
-      : assert(maxNum > 0 && minNum > 0),
-        balls = getBalls(maxNum);
+      : balls = getBalls(maxNum);
 
   BallConfig.sub(int maxNum, this.minNum, this.color, this.repeat, this.sort)
       : balls = getBalls(maxNum);
@@ -113,5 +115,25 @@ class DoubleColourBall extends WelfareLottery {
   LotteryConfig config() {
     return LotteryConfig(BallConfig.main(33, 6, BallColors.br, false, false),
         BallConfig.main(16, 1, BallColors.bb, false, false));
+  }
+}
+
+class Happy8 extends WelfareLottery {
+  const Happy8() : super(LotteryType.happy8);
+
+  @override
+  String name() {
+    return "快乐8";
+  }
+
+  @override
+  String nextDraw() {
+    return Utils.nextDraw([1, 2, 3, 4, 5, 6, 7]);
+  }
+
+  @override
+  LotteryConfig config() {
+    return LotteryConfig(BallConfig.main(80, 10, BallColors.br, false, false),
+        BallConfig.main(0, 0, BallColors.bb, false, false));
   }
 }

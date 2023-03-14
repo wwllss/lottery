@@ -25,6 +25,22 @@ class _LotteryViewState extends State<LotteryView> {
   @override
   Widget build(BuildContext context) {
     LotteryConfig config = widget._lottery.config();
+    List<Widget> subWidgets = [];
+    if (config.sub.minNum > 0) {
+      subWidgets = [
+        const SizedBox(height: 12),
+        Text(
+          "后区：最少${config.sub.minNum}个",
+          style: const TextStyle(color: Colors.white),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: _getBalls(config.sub, widget.sbs),
+        ),
+      ];
+    }
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,17 +55,7 @@ class _LotteryViewState extends State<LotteryView> {
             runSpacing: 6,
             children: _getBalls(config.main, widget.mbs),
           ),
-          const SizedBox(height: 12),
-          Text(
-            "后区：最少${config.sub.minNum}个",
-            style: const TextStyle(color: Colors.white),
-          ),
-          const SizedBox(height: 6),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: _getBalls(config.sub, widget.sbs),
-          ),
+          ...subWidgets
         ],
       ),
     );

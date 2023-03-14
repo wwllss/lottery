@@ -86,8 +86,8 @@ class LotteryResult {
         mainNumbers = _listDynamic2ListInt(json['mainNumbers']),
         bonusNumbers = _listDynamic2ListInt(json['bonusNumbers']);
 
-  static List<int> _listDynamic2ListInt(List<dynamic> list) {
-    return List<int>.from(list);
+  static List<int> _listDynamic2ListInt(List<dynamic>? list) {
+    return list == null ? [] : List<int>.from(list);
   }
 
   Map<String, dynamic> toJson() => {

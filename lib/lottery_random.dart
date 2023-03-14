@@ -48,6 +48,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
 
   @override
   Widget build(BuildContext context) {
+    LotteryConfig config = widget.lottery.config();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.lottery.name()),
@@ -67,11 +68,13 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                 ),
                 newestHistory == null
                     ? const SizedBox()
-                    : LotteryNumberView(
-                        lottery: widget.lottery,
-                        mainNumList: newestHistory?.mainNumbers ?? [],
-                        subNumList: newestHistory?.bonusNumbers ?? [],
-                        size: 25,
+                    : Expanded(
+                        child: LotteryNumberView(
+                          lottery: widget.lottery,
+                          mainNumList: newestHistory?.mainNumbers ?? [],
+                          subNumList: newestHistory?.bonusNumbers ?? [],
+                          size: 25,
+                        ),
                       ),
               ],
             ),
@@ -150,7 +153,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                     },
                   ),
                   Text(
-                    "复式 $_duplexMain  + $_duplexSub ",
+                    "复式 $_duplexMain  ${config.sub.minNum == 0 ? "" : "+ $_duplexSub"}",
                     style: const TextStyle(color: Colors.white),
                   ),
                 ],
@@ -295,7 +298,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
     TextEditingController subController =
         TextEditingController(text: _duplexSub.toString());
     return AlertDialog(
-      title: const Text("复式 N+N"),
+      title: const Text("复 式"),
       content: Form(
         key: formKey,
         child: Column(
@@ -325,28 +328,33 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                 return null;
               },
             ),
-            TextFormField(
-              controller: subController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: "后区数：",
-                hintText: "不小于${config.sub.minNum}",
-              ),
-              validator: (value) {
-                value = value ?? "";
-                if (value.isEmpty) {
-                  return "后区数不能为空";
-                }
-                var sub = int.parse(value);
-                if (sub < config.sub.minNum) {
-                  return "后区数不能小于${config.sub.minNum}";
-                }
-                if (sub + int.parse(mainController.text) < totalNum) {
-                  return "与前区数想加不能小于$totalNum";
-                }
-                return null;
-              },
-            ),
+            config.sub.minNum == 0
+                ? const SizedBox(
+                    width: 0,
+                    height: 0,
+                  )
+                : TextFormField(
+                    controller: subController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: "后区数：",
+                      hintText: "不小于${config.sub.minNum}",
+                    ),
+                    validator: (value) {
+                      value = value ?? "";
+                      if (value.isEmpty) {
+                        return "后区数不能为空";
+                      }
+                      var sub = int.parse(value);
+                      if (sub < config.sub.minNum) {
+                        return "后区数不能小于${config.sub.minNum}";
+                      }
+                      if (sub + int.parse(mainController.text) < totalNum) {
+                        return "与前区数想加不能小于$totalNum";
+                      }
+                      return null;
+                    },
+                  ),
           ],
         ),
       ),
