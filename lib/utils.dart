@@ -88,19 +88,25 @@ class Utils {
         : "${dateTime.year}年${dateTime.month}月${dateTime.day}日 ${weekdayDesc(dateTime)}";
   }
 
+  static String formatBall(int ball) {
+    return ball.toString().padLeft(2, '0');
+  }
+
   static List<LotteryHistory> random(LotteryConfig config,
       {int count = 1,
       bool globalNoRepeat = false,
-      LotteryHistory? history,
+      LotteryHistory? killed,
       int? duplexMain,
       int? duplexSub}) {
     var mainConfig = config.main;
     var mainBallsSource = List<int>.from(mainConfig.balls);
     mainBallsSource.removeWhere(
-        (element) => history?.mainNumbers.contains(element) ?? false);
+        (element) => killed?.mainNumbers.contains(element) ?? false);
     var mainNum = duplexMain ?? mainConfig.minNum;
     var subConfig = config.sub;
     var subBallSource = List<int>.from(subConfig.balls);
+    subBallSource.removeWhere(
+        (element) => killed?.bonusNumbers.contains(element) ?? false);
     var subNum = duplexSub ?? subConfig.minNum;
     count = globalNoRepeat ? mainBallsSource.length ~/ mainNum : count;
     List<LotteryHistory> list = [];
@@ -110,11 +116,13 @@ class Utils {
       if (!globalNoRepeat) {
         mainBallsSource = List<int>.from(mainConfig.balls);
         mainBallsSource.removeWhere(
-            (element) => history?.mainNumbers.contains(element) ?? false);
+            (element) => killed?.mainNumbers.contains(element) ?? false);
       }
       List<int> sbs =
           randomBalls(subBallSource, subNum, subConfig.repeat, subConfig.sort);
       subBallSource = List<int>.from(subConfig.balls);
+      subBallSource.removeWhere(
+          (element) => killed?.bonusNumbers.contains(element) ?? false);
       list.add(LotteryHistory(mbs, sbs, ""));
     }
     return list;

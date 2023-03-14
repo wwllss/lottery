@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottery/ball_colors.dart';
 import 'package:lottery/enums.dart';
+import 'package:lottery/lottery_view.dart';
 import 'package:lottery/utils.dart';
 
 import 'lottery_history.dart';
@@ -19,8 +20,8 @@ class LotteryRandomPage extends StatefulWidget {
 
 class _LotteryRandomPageState extends State<LotteryRandomPage> {
   LotteryHistory? newestHistory;
+  LotteryHistory? _killedBalls;
   List<dynamic> selectedList = [];
-  bool _includeNewest = false;
   bool _duplex = false;
   int _duplexMain = 0;
   int _duplexSub = 0;
@@ -35,6 +36,10 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
       if (list.isNotEmpty) {
         setState(() {
           newestHistory = list[0];
+          _killedBalls = LotteryHistory(
+              List<int>.from(newestHistory?.mainNumbers ?? []),
+              List<int>.from(newestHistory?.bonusNumbers ?? []),
+              newestHistory?.drawDate ?? "");
         });
       }
     });
@@ -69,6 +74,28 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                         size: 25,
                       ),
               ],
+            ),
+            const SizedBox(height: 12),
+            InkWell(
+              onTap: () {
+                _showKillNumberDialog();
+              },
+              child: Row(
+                children: [
+                  const Text(
+                    "杀号：",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Expanded(
+                    child: LotteryNumberView(
+                      lottery: widget.lottery,
+                      mainNumList: _killedBalls?.mainNumbers ?? [],
+                      subNumList: _killedBalls?.bonusNumbers ?? [],
+                      size: 25,
+                    ),
+                  )
+                ],
+              ),
             ),
             const SizedBox(height: 12),
             Expanded(
@@ -110,55 +137,24 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   itemCount: selectedList.length),
             ),
             const SizedBox(height: 6),
-            Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        _includeNewest = !_includeNewest;
-                      });
+            InkWell(
+              onTap: () {
+                _onTapDuplex(!_duplex);
+              },
+              child: Row(
+                children: [
+                  Switch(
+                    value: _duplex,
+                    onChanged: (value) {
+                      _onTapDuplex(value);
                     },
-                    child: Row(
-                      children: [
-                        Switch(
-                          value: _includeNewest,
-                          onChanged: (value) {
-                            setState(() {
-                              _includeNewest = !_includeNewest;
-                            });
-                          },
-                        ),
-                        const Text(
-                          "包含上期开奖号码",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
                   ),
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      _onTapDuplex(!_duplex);
-                    },
-                    child: Row(
-                      children: [
-                        Switch(
-                          value: _duplex,
-                          onChanged: (value) {
-                            _onTapDuplex(value);
-                          },
-                        ),
-                        Text(
-                          "复式 $_duplexMain  + $_duplexSub ",
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
-                    ),
+                  Text(
+                    "复式 $_duplexMain  + $_duplexSub ",
+                    style: const TextStyle(color: Colors.white),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 6),
             Row(
@@ -171,7 +167,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                             Utils.random(
                               widget.lottery.config(),
                               globalNoRepeat: true,
-                              history: _includeNewest ? null : newestHistory,
+                              killed: _killedBalls,
                               duplexMain: _duplex ? _duplexMain : null,
                               duplexSub: _duplex ? _duplexSub : null,
                             ),
@@ -202,7 +198,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                             Utils.random(
                               widget.lottery.config(),
                               count: 1,
-                              history: _includeNewest ? null : newestHistory,
+                              killed: _killedBalls,
                               duplexMain: _duplex ? _duplexMain : null,
                               duplexSub: _duplex ? _duplexSub : null,
                             ),
@@ -233,7 +229,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                             Utils.random(
                               widget.lottery.config(),
                               count: 5,
-                              history: _includeNewest ? null : newestHistory,
+                              killed: _killedBalls,
                               duplexMain: _duplex ? _duplexMain : null,
                               duplexSub: _duplex ? _duplexSub : null,
                             ),
@@ -270,8 +266,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
     var total = Utils.combine(history.mainNumbers.length, config.main.minNum)
             .length *
         Utils.combine(history.bonusNumbers.length, config.sub.minNum).length;
-    selectedList.insert(0,
-        "第${_count++}次，$desc，${_includeNewest ? "" : "不"}包含上期开奖号码，每注${total * 2}元");
+    selectedList.insert(0, "第${_count++}次，$desc，每注${total * 2}元");
   }
 
   void _onTapDuplex(bool value) {
@@ -374,5 +369,79 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
         ),
       ],
     );
+  }
+
+  void _showKillNumberDialog() {
+    LotteryView lotteryView = LotteryView(
+      widget.lottery,
+      mbs: _killedBalls?.mainNumbers,
+      sbs: _killedBalls?.bonusNumbers,
+    );
+    showModalBottomSheet<LotteryHistory>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          height: 600,
+          color: BallColors.bg_content,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 45,
+                alignment: Alignment.center,
+                child: const Text(
+                  "请选择号码",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: lotteryView,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  if (lotteryView.mbs.isEmpty && lotteryView.sbs.isEmpty) {
+                    return;
+                  }
+                  Navigator.of(context).pop(LotteryHistory(lotteryView.mbs,
+                      lotteryView.sbs, newestHistory?.drawDate ?? ""));
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 45,
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: BallColors.bb,
+                    borderRadius: BorderRadius.circular(45),
+                  ),
+                  child: const Text(
+                    "确 定",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          _killedBalls = value;
+        });
+      }
+    });
   }
 }

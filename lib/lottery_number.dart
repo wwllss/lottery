@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottery/enums.dart';
+import 'package:lottery/utils.dart';
 
 class LotteryNumberView extends StatelessWidget {
   final Lottery lottery;
@@ -22,17 +23,7 @@ class LotteryNumberView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (mainNumList.isEmpty) {
-      return Container(
-        height: size,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: lottery.config().main.color,
-            borderRadius: BorderRadius.circular(20)),
-        child: const Text(
-          "号码错误",
-          style: TextStyle(color: Colors.white),
-        ),
-      );
+      return SizedBox.fromSize(size: Size.zero);
     }
     List<Widget> list = _addBalls(mainNumList, lottery.config().main.color);
     if (subNumList.isNotEmpty) {
@@ -66,7 +57,7 @@ class LotteryNumberView extends StatelessWidget {
         decoration: BoxDecoration(
             color: color, borderRadius: BorderRadius.circular(size)),
         child: Text(
-          element.toString().padLeft(2, '0'),
+          Utils.formatBall(element),
           style:
               const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
