@@ -387,18 +387,23 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 45,
-                alignment: Alignment.center,
-                child: const Text(
-                  "请选择号码",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              Material(
+                color: BallColors.bg_content,
+                elevation: 10,
+                child: Container(
+                  height: 45,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "请选择号码",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
+              const SizedBox(height: 6),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
