@@ -42,7 +42,7 @@ class _LotteryItemViewState extends State<LotteryItemView> {
               lottery: widget.lottery,
               mainNumList: newestHistory?.mainNumbers ?? [],
               subNumList: newestHistory?.bonusNumbers ?? [],
-              size: 28,
+              size: 30,
             )
           ];
     return Container(
