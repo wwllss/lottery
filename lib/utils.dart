@@ -65,11 +65,11 @@ class Utils {
   }
 
   static void historyList(
-      LotteryType type, void Function(List<LotteryHistory> list) onList) {
+      LotteryType type, void Function(List<LotteryResult> list) onList) {
     historyStr(type).then((value) {
       Iterable i = jsonDecode(value);
       var list =
-          List<LotteryHistory>.from(i.map((e) => LotteryHistory.fromJson(e)));
+          List<LotteryResult>.from(i.map((e) => LotteryResult.fromJson(e)));
       onList(list);
     });
   }
@@ -92,10 +92,10 @@ class Utils {
     return ball.toString().padLeft(2, '0');
   }
 
-  static List<LotteryHistory> random(LotteryConfig config,
+  static List<LotteryResult> random(LotteryConfig config,
       {int count = 1,
       bool globalNoRepeat = false,
-      LotteryHistory? killed,
+      LotteryResult? killed,
       int? duplexMain,
       int? duplexSub}) {
     var mainConfig = config.main;
@@ -109,7 +109,7 @@ class Utils {
         (element) => killed?.bonusNumbers.contains(element) ?? false);
     var subNum = duplexSub ?? subConfig.minNum;
     count = globalNoRepeat ? mainBallsSource.length ~/ mainNum : count;
-    List<LotteryHistory> list = [];
+    List<LotteryResult> list = [];
     for (int i = 0; i < count; i++) {
       List<int> mbs = randomBalls(
           mainBallsSource, mainNum, mainConfig.repeat, mainConfig.sort);
@@ -123,7 +123,7 @@ class Utils {
       subBallSource = List<int>.from(subConfig.balls);
       subBallSource.removeWhere(
           (element) => killed?.bonusNumbers.contains(element) ?? false);
-      list.add(LotteryHistory(mbs, sbs, ""));
+      list.add(LotteryResult(mbs, sbs, ""));
     }
     return list;
   }

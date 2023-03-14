@@ -18,7 +18,7 @@ class LotteryItemView extends StatefulWidget {
 }
 
 class _LotteryItemViewState extends State<LotteryItemView> {
-  LotteryHistory? newestHistory;
+  LotteryResult? newestHistory;
 
   @override
   void initState() {

@@ -16,7 +16,7 @@ class LotteryHistoryPage extends StatefulWidget {
 }
 
 class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
-  List<LotteryHistory> list = [];
+  List<LotteryResult> list = [];
 
   @override
   void initState() {
@@ -72,16 +72,16 @@ class _LotteryHistoryPageState extends State<LotteryHistoryPage> {
   }
 }
 
-class LotteryHistory {
+class LotteryResult {
   final String drawDate;
 
   final List<int> mainNumbers;
 
   final List<int> bonusNumbers;
 
-  LotteryHistory(this.mainNumbers, this.bonusNumbers, this.drawDate);
+  LotteryResult(this.mainNumbers, this.bonusNumbers, this.drawDate);
 
-  LotteryHistory.fromJson(Map<String, dynamic> json)
+  LotteryResult.fromJson(Map<String, dynamic> json)
       : drawDate = json['drawDate'],
         mainNumbers = _listDynamic2ListInt(json['mainNumbers']),
         bonusNumbers = _listDynamic2ListInt(json['bonusNumbers']);

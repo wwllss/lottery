@@ -19,8 +19,8 @@ class LotteryRandomPage extends StatefulWidget {
 }
 
 class _LotteryRandomPageState extends State<LotteryRandomPage> {
-  LotteryHistory? newestHistory;
-  LotteryHistory? _killedBalls;
+  LotteryResult? newestHistory;
+  LotteryResult? _killedBalls;
   List<dynamic> selectedList = [];
   bool _duplex = false;
   int _duplexMain = 0;
@@ -36,7 +36,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
       if (list.isNotEmpty) {
         setState(() {
           newestHistory = list[0];
-          _killedBalls = LotteryHistory(
+          _killedBalls = LotteryResult(
               List<int>.from(newestHistory?.mainNumbers ?? []),
               List<int>.from(newestHistory?.bonusNumbers ?? []),
               newestHistory?.drawDate ?? "");
@@ -102,7 +102,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
               child: ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
                     var history = selectedList[index];
-                    if (history is LotteryHistory) {
+                    if (history is LotteryResult) {
                       return LotteryNumberView(
                         lottery: widget.lottery,
                         mainNumList: history.mainNumbers,
@@ -259,7 +259,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
     );
   }
 
-  void _newSelectedList(List<LotteryHistory> list, String desc) {
+  void _newSelectedList(List<LotteryResult> list, String desc) {
     selectedList.insertAll(0, list);
     var history = list[0];
     var config = widget.lottery.config();
@@ -377,7 +377,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
       mbs: _killedBalls?.mainNumbers,
       sbs: _killedBalls?.bonusNumbers,
     );
-    showModalBottomSheet<LotteryHistory>(
+    showModalBottomSheet<LotteryResult>(
       context: context,
       isScrollControlled: true,
       builder: (context) {
@@ -410,7 +410,7 @@ class _LotteryRandomPageState extends State<LotteryRandomPage> {
                   if (lotteryView.mbs.isEmpty && lotteryView.sbs.isEmpty) {
                     return;
                   }
-                  Navigator.of(context).pop(LotteryHistory(lotteryView.mbs,
+                  Navigator.of(context).pop(LotteryResult(lotteryView.mbs,
                       lotteryView.sbs, newestHistory?.drawDate ?? ""));
                 },
                 child: Container(
